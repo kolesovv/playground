@@ -1,6 +1,6 @@
 package com.github.kolesovv.lesson1.model;
 
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class Client {
 
@@ -13,10 +13,8 @@ public class Client {
         this.age = age;
     }
 
-    public Wallet getWallet() {
-        if (wallet != null) {
-            return wallet;
-        } else throw new NoSuchElementException("The wallet has not been created");
+    public Optional<Wallet> getWallet() {
+        return Optional.of(wallet);
     }
 
     public void setAge(Integer age) {
@@ -33,6 +31,7 @@ public class Client {
 
     @Override
     public String toString() {
+
         return "Client{" +
                 "name='" + name + '\'' +
                 ", balance=" + wallet.getBalance() +

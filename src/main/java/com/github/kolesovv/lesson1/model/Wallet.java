@@ -17,13 +17,22 @@ public class Wallet {
     }
 
     public void deposit(BigDecimal amount) {
-        if (amount.doubleValue() <= 0) throw new IllegalArgumentException("The amount must be greater than zero");
-        else balance = balance.add(amount).setScale(accuracy, roundingMode);
+
+        if (amount == null) {
+            throw new IllegalArgumentException("Amount is null");
+        } else if (amount.doubleValue() <= 0) {
+            throw new RuntimeException("The amount must be greater than zero");
+        } else {
+            balance = balance.add(amount).setScale(accuracy, roundingMode);
+        }
     }
 
     public void withdraw(BigDecimal amount) {
-        if (amount.doubleValue() <= 0) {
-            throw new IllegalArgumentException("The amount must be greater than zero");
+
+        if (amount == null) {
+            throw new IllegalArgumentException("Amount is null");
+        } else if (amount.doubleValue() <= 0) {
+            throw new RuntimeException("The amount must be greater than zero");
         } else if ((balance.subtract(amount).doubleValue()) < 0) {
             throw new RuntimeException("Not enough money in your wallet");
         } else {

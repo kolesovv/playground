@@ -9,9 +9,7 @@ public class Order {
     private StatusOrder status;
     private final Client client;
     private final Car car;
-
     private LocalDateTime bookTime;
-
     private final LocalDateTime startBookTime;
     private LocalDateTime finishBookTime;
 
@@ -53,14 +51,16 @@ public class Order {
 
     @Override
     public String toString() {
+
+        String datePattern = "yyyy-MM-dd HH:mm:ss";
         return "Order{" +
                 "status=" + status +
                 ", client=" + client +
                 ", vehicle=" + car +
-                ", bookTime=" + bookTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
-                ", startBookTime=" + startBookTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
+                ", bookTime=" + bookTime.format(DateTimeFormatter.ofPattern(datePattern)) +
+                ", startBookTime=" + startBookTime.format(DateTimeFormatter.ofPattern(datePattern)) +
                 ", finishBookTime=" + (!Objects.equals(status.toString(), "COMPLETED") ?
-                null : finishBookTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))) +
+                null : finishBookTime.format(DateTimeFormatter.ofPattern(datePattern))) +
                 '}';
     }
 }

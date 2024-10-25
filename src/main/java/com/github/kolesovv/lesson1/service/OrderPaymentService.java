@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 public class OrderPaymentService {
 
@@ -25,15 +26,31 @@ public class OrderPaymentService {
     public void payment() {
 
         BigDecimal bill = getBill();
-
         Client client = order.getClient();
-        Wallet wallet = client.getWallet();
-        wallet.withdraw(bill);
-
-        order.setStatus(StatusOrder.IN_PROCESS);
+        Optional<Wallet> optionalWallet = client.getWallet();
+        if (optionalWallet.isPresent()) {
+            optionalWallet.get().withdraw(bill);
+            order.setStatus(StatusOrder.IN_PROCESS);
+        } else {
+            throw new RuntimeException("The wallet has not been created");
+        }
     }
 
     private BigDecimal getBill() {
+
+        LocalDateTime startBookTime = order.getStartBookTime();
+        LocalDateTime bookTime = order.getBookTime();
+        Long days = ChronoUnit.DAYS.between(startBookTime, bookTime);
+        determineClassCoefficient();
+
+        return basicDailyRate
+                .multiply(BigDecimal.valueOf(days))
+                .multiply(BigDecimal.valueOf(classCoefficient))
+                .setScale(accuracy, roundingMode);
+    }
+
+    private void determineClassCoefficient() {
+
         switch (order.getCar().getClassifier()) {
             case ECONOMY -> classCoefficient = 1.0;
             case COMFORT -> classCoefficient = 1.2;
@@ -41,15 +58,6 @@ public class OrderPaymentService {
             case LUXURY -> classCoefficient = 2.0;
             case SPORT -> classCoefficient = 1.5;
         }
-
-        LocalDateTime startBookTime = order.getStartBookTime();
-        LocalDateTime bookTime = order.getBookTime();
-        Long days = ChronoUnit.DAYS.between(startBookTime, bookTime);
-
-        return basicDailyRate
-                .multiply(BigDecimal.valueOf(days))
-                .multiply(BigDecimal.valueOf(classCoefficient))
-                .setScale(accuracy, roundingMode);
     }
 
     public void printBill() {
