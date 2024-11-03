@@ -5,8 +5,8 @@ import java.math.RoundingMode;
 
 public class Wallet {
 
-    private final static Integer accuracy = 2;
-    private final static RoundingMode roundingMode = RoundingMode.HALF_UP;
+    private static final Integer ACCURACY = 2;
+    private static final RoundingMode roundingMode = RoundingMode.HALF_UP;
     private BigDecimal balance;
 
     public Wallet() {
@@ -23,7 +23,7 @@ public class Wallet {
         } else if (amount.doubleValue() <= 0) {
             throw new RuntimeException("The amount must be greater than zero");
         } else {
-            balance = balance.add(amount).setScale(accuracy, roundingMode);
+            balance = balance.add(amount).setScale(ACCURACY, roundingMode);
         }
     }
 
@@ -36,7 +36,7 @@ public class Wallet {
         } else if ((balance.subtract(amount).doubleValue()) < 0) {
             throw new RuntimeException("Not enough money in your wallet");
         } else {
-            balance = balance.subtract(amount).setScale(accuracy, roundingMode);
+            balance = balance.subtract(amount).setScale(ACCURACY, roundingMode);
         }
     }
 

@@ -13,17 +13,17 @@ public class CarRentalSystemRunner {
     public static void main(String[] args) {
 
         // Creating a user
-        Client SpeedRacer = new Client("SpeedRacer", 30);
+        Client speedRacer = new Client("SpeedRacer", 30);
 
         // Creating a wallet with deposit
         Wallet wallet = new Wallet(new BigDecimal(10_000));
-        SpeedRacer.setWallet(wallet);
+        speedRacer.setWallet(wallet);
 
         // Fleet initialization
         CarRepository carRepository = new CarRepository();
 
         // Creating and placing an order
-        Order orderUser = new Order(SpeedRacer, carRepository.getById(0), LocalDateTime.now().plusDays(5));
+        Order orderUser = new Order(speedRacer, carRepository.getById(0), LocalDateTime.now().plusDays(5));
         OrderService orderService = new OrderService();
         orderService.placement(orderUser);
 
