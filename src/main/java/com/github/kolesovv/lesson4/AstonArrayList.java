@@ -51,7 +51,6 @@ public class AstonArrayList<E> implements AstonList<E> {
 
     @Override
     public boolean addAll(Collection<E> collection) {
-
         if (size < count - 1 + collection.size()) {
             int newCapacity = size + collection.size();
             grow(newCapacity);
@@ -101,5 +100,17 @@ public class AstonArrayList<E> implements AstonList<E> {
     @Override
     public String toString() {
         return Arrays.toString(Arrays.copyOfRange(data, 0, count));
+    }
+
+    public static <T extends Comparable<T>> void sort(AstonList<T> list) {
+        for (int i = 0; i < list.getSize(); i++) {
+            for (int j = i; j < list.getSize(); j++) {
+                if (list.get(i).compareTo(list.get(j)) > 0) {
+                    T temp = list.get(i);
+                    list.set(i, list.get(j));
+                    list.set(j, temp);
+                }
+            }
+        }
     }
 }

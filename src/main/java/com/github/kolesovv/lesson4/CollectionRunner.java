@@ -33,9 +33,9 @@ public class CollectionRunner {
         int index = 3;
         System.out.printf("Object '%s' for '%d' index%n%n", stringAstonList.get(index), index);
 
-        User user1 = new User("Michele", 18);
+        User user1 = new User("Michele", 33);
         User user2 = new User("Taylor", 29);
-        User user3 = new User("Ingrid", 33);
+        User user3 = new User("Ingrid", 18);
 
         // Create 'User' list
         Collection<User> users = List.of(user1, user2, user3);
@@ -44,13 +44,16 @@ public class CollectionRunner {
         AstonList<User> userAstonList = new AstonArrayList<>(users);
         System.out.println(userAstonList);
 
+        // Sort list
+        AstonArrayList.sort(userAstonList);
+        System.out.println(userAstonList);
+
         // Get size of list
         System.out.println("Size: " + userAstonList.getSize());
 
         // Remove 'User' by index
         userAstonList.remove(1);
         System.out.println(userAstonList);
-
     }
 
     static class User implements Comparable<User> {
@@ -72,7 +75,7 @@ public class CollectionRunner {
 
         @Override
         public int compareTo(User o) {
-            return 0;
+            return Integer.compare(this.age, o.age);
         }
     }
 }
